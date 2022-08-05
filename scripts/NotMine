@@ -1,0 +1,9 @@
+#!/bin/sed -f
+# Add all SSID's and MAC addresses  that you do not want included
+# using the sed(1) delete command in the format /STRING/d
+# These are examples:
+/FF:FF:FF:FF:FF:FF/d
+/aa:bb:cc:dd:ee:ff/d
+/myssid/d
+/,myexactssid,/d    
+/wardriver.uk/d

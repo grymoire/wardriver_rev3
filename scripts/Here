@@ -1,0 +1,33 @@
+#!/usr/bin/awk  -f
+BEGIN {
+    FS=",";
+    # Enter your latitude and longitude here
+    MYLAT=39.094845;
+    MYLONG=-76.7298708;
+    # Delta is used to define the +/- values. 0.001 works for me but you can adjust this.
+    delta=0.001;
+    LATMIN=MYLAT-delta;
+    LATMAX=MYLAT+delta;
+    LONGMIN=MYLONG-delta;
+    LONGMAX=MYLONG+delta;
+}
+{
+    # for each line, decide if it's local or not
+    # get the location
+    LAT=$7;
+    LONG=$8;
+    # did this line contain a valid location?
+    if ((LAT==0) && (LONG==0)) {
+        # no GSM - ignore this line
+    } else { # we have a location
+        if ((LAT>=LATMIN) && (LAT<=LATMAX) && (LONG>=LONGMIN) && (LONG<=LONGMAX)) {
+            # it's Here
+            print;
+        } else {
+            # it's NotHere
+            # print
+        }
+    }
+}
+    
+            

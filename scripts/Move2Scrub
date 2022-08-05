@@ -1,0 +1,24 @@
+#!/bin/sh
+# usage:
+#     ./Move2Scrub *.csv
+#
+# where to you want to store the "scrubbed" *.csv files
+SCRUB="./Scrub"
+
+
+# Make the directory if it's not there
+if [ ! -d "$SCRUB" ]
+then
+    mkdir "$SCRUB"
+fi
+
+
+for file in "$@"
+do
+    if [ ! -f "$SCRUB"/"$file" ]
+    then
+    
+        echo Scrubbing "$file"
+         ./NotMine <"$file" | ./NotHere >"$SCRUB"/"$file"
+    fi
+done
