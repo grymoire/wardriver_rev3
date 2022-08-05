@@ -81,15 +81,12 @@ step 3 - tune filters
         
 step 4 - make a directory for scrubbed files 
 
-    mkdir Scrub
+    mkdir Scrub - note - the script will do this for you now
 
 step 5 - scrub each file
 
-    #!/bin/sh
-    for i in *.csv
-    do
-        cat $i | NotMine| NotLocal >Scrub/$i
-    done
-
+    ./Move2Scrub *.csv
+    
 step 6
         upload the scrubbed files    
+        There are in the scrubbed directory you created
