@@ -1,13 +1,19 @@
-This directory contains UNIX shell scripts that can be used to
-whitelist devices. If you do not want certain SSID or MAC addresses to
+This directory contains UNIX shell scripts that can process *.csv files
+One set of scripts can be used to whitelist devices. If you do not want certain SSID or MAC addresses to
 be uploaded to the Wigle.net databasem these scripes can help you do
 this.
 
-It can remove devices by geoplocation, SSID, or MAC addresses.
+It can remove devices by geolocation, SSID, or MAC addresses.
 
 You way want to do this to remove your own network, or your employer's
 network, from the Wigle.net database. Some managers may not appreciate
 their employee's increasing their company's attack surface.
+
+The other set of scripts can be used to find stalkers - or those that might be tracking you.
+It looks for MAC addresses seen in more than one location.
+
+
+# Whitelist tools
 
 
 First step is to remove the SD card and copy files onto a local directory. I use rsync.
@@ -90,3 +96,14 @@ step 5 - scrub each file
 step 6
         upload the scrubbed files    
         There are in the scrubbed directory you created
+
+# Stalker tools
+
+The script ./FindCreeps will look at all of the *.csv files in the
+current directory, and identify those MAC addresses seen in more than
+one location. It then sorts and reports the top 10 devices - showing
+most frequent MAC address first. It then does a GREP to print the raw data
+using "grep MACADDRESS *.csv"
+
+Note that the GPS location is not precise and I have a fudge factor to
+round up the location. This can be adjusted in the file FindCreeps.awk

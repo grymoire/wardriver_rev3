@@ -1,0 +1,25 @@
+#!/bin/sh
+# Find Creeps - or those who might be stalking you
+#
+# This script looks at all of the *.csv files in the current directory
+# and first looks for those MAC addresses that show up in more than one location.
+# It then runs an AWK script that prints out data in 2 columns in this format
+#     NumberOfLocations MACAddress            
+# You can look at the data like this, or use this code which just looks at the top 10 (using head)
+# and then it does a grep to print out all of the entries for each MAC address, separated bu dashed lines    
+# Or you can uncomment the next two lines
+
+#cat *.csv | awk -f FindCreeps.awk | sort -nr | head
+#exit    
+
+cat *.csv | awk -f FindCreeps.awk | sort -nr | head | while read count mac
+    do
+    echo "# MAC $mac seen $count locations"
+        cat *.csv | grep  "$mac" 
+    echo "#---------------------"        
+    done
+
+# Note that while the script might report 8 locations - there may be
+#  more lines, because it shows the raw data - including locations that
+#  are very close to each other and are therefore duplicate entries
+        
