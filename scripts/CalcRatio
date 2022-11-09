@@ -1,0 +1,35 @@
+#!/bin/awk -f
+# This awk script counts the percentage of each type of WiFi encryption.
+# It handles duplicate entires by using SSID + MAC address as an index
+BEGIN {
+    FS="," # field separator
+}
+# Look for WIFI networks with an SSID announced
+# sometimes people put a comma in their SSID - so we ignore this by only looking at lines with 11 fields
+/WIFI/ && length($2) && NF==11 {
+    # which fields will we be using? Define them here in case they move in the future
+    MAC=$1 # mac address
+    SSID=$2 # SSID
+    ENC=$3  # encryption type
+    # Check the MAC address and the SSID for uniqueness, using the string ID as an index
+    ID=MAC  " "  SSID
+    if (seen[ID]++ == 1) { # increment the number of times we've seen this
+        # first time we have seen this ID, count the 
+        unique_id++; # how many have we seen total
+        type[ENC]++; # how many have we seen of this encryption type?
+    }
+}
+END {
+# we are done counting, now report
+    
+# define the formats  - easier to tweak this way   
+    FMT= "%-20s %10s\t(%6s/%6s)\n";
+    DFMT="%-20s %10.2f\t(%6d/%6d)\n";
+
+    printf(FMT, "Encryption", "Percentage", "#", "total"); # print the header
+    for (i in type)  {
+        printf(DFMT, i, ((100.0*type[i])/unique_id), type[i], unique_id)
+    }
+}
+ 
+    
